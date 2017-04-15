@@ -4,9 +4,8 @@ An easy way to create beautiful social authentication buttons
 ## Screenshots
 <img src="Screenshots/demo.gif"  height="300" />
 
-<img src="Screenshots/ss2.png"  height="400" />
 
-<img src="Screenshots/ss1.png"  height="400" />
+<img src="Screenshots/ss1.png"  height="500" />
 
 
 ## Installation
