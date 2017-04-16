@@ -13,7 +13,7 @@ An easy way to create beautiful social authentication buttons
 ### Cocoa Pods
 
 ```bash
-Cocoa Pod Coming soon
+pod 'EasySocialButton'
 ```
 
 ### Manual
