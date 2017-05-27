@@ -8,15 +8,26 @@
 
 import UIKit
 
-public typealias MZAction = (AZSocialButton)->Void
-
 @IBDesignable
-public class AZSocialButton: UIButton{
+open class AZSocialButton: UIButton{
     
-    /// Timer used to check long clicks.
-    fileprivate var longClickTimer: Timer?
-    
+    /// The image view which holds the icon.
     fileprivate var imageHolder: UIImageView!
+    
+    /// Start animation duration.
+    open var beginAnimationDuration: Double = 0.2
+    
+    /// End animation duration.
+    open var endAnimationDuration: Double = 0.25
+    
+    /// Animation Spring velocity.
+    open var initialSpringVelocity: Float = 6.0
+    
+    /// Animation Spring Damping.
+    open var usingSpringWithDamping: Float = 0.2
+    
+    /// A flag which indicates if the button is in the middle of an animation.
+    internal (set) open var isAnimating = false
     
     /// Social Icon
     @IBInspectable
@@ -30,6 +41,7 @@ public class AZSocialButton: UIButton{
     @IBInspectable
     open var animateInteraction: Bool = false
     
+    /// Should highlight on interaction.
     @IBInspectable
     open var highlightOnTouch: Bool = true
     
@@ -52,24 +64,6 @@ public class AZSocialButton: UIButton{
         }
     }
     
-    /// Start animation duration.
-    open var beginAnimationDuration: Double = 0.2
-    
-    /// End animation duration.
-    open var endAnimationDuration: Double = 0.25
-    
-    /// Animation Spring velocity.
-    open var initialSpringVelocity: Float = 6.0
-    
-    /// Animation Spring Damping.
-    open var usingSpringWithDamping: Float = 0.2
-    
-    /// Time needed to invoke long click action.
-    open var longClickTriggerDuration: Double = 1.5
-    
-    /// Should long click action be invoked.
-    open var isLongClickEnabled: Bool = false
-    
     ///The primary color of the button.
     @IBInspectable
     open var color: UIColor = .white{
@@ -78,6 +72,7 @@ public class AZSocialButton: UIButton{
         }
     }
     
+    /// Shadow Opacity of the button
     @IBInspectable
     open var shadowOpacity: Float = 0.2{
         didSet{
@@ -85,35 +80,46 @@ public class AZSocialButton: UIButton{
         }
     }
     
+    /// Shadow radius of the button.
     @IBInspectable
-    open var shadowRadius: CGFloat = 1.0
+    open var shadowRadius: CGFloat = 1.0{
+        didSet{
+            layer.shadowRadius = shadowRadius
+        }
+    }
     
-    ///Normal click Action
-    open var onClickAction: MZAction?
+    ///The function that is triggered once button is clicked (if set)
+    open var onClickAction: ((AZSocialButton)->Void)?
     
-    ///Long click action
-    open var onLongClickAction: MZAction?
-    
+    /// Padding between the image and the button.
     open var padding: CGFloat {
         return 7.0
     }
     
-    override public var imageView: UIImageView?{
+    /// The imageview.
+    final override public var imageView: UIImageView?{
         return imageHolder
     }
     
+    /// Init with frame.
+    ///
+    /// - Parameter frame: The frame of the button.
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
+    /// Init with coder
+    ///
+    /// - Parameter coder: NIB Coder
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
+    /// Setup function called from initializers.
     internal func setup(){
-        addTarget(self, action: #selector(AZSocialButton.click), for: .touchUpInside)
+        addTarget(self, action: #selector(click), for: .touchUpInside)
         isExclusiveTouch = true
         imageHolder = UIImageView()
         imageHolder.contentMode = .scaleAspectFit
@@ -126,10 +132,8 @@ public class AZSocialButton: UIButton{
         imageHolder.widthAnchor.constraint(equalTo: imageHolder.heightAnchor, multiplier: 1.0).isActive = true
     }
     
-    internal var isAnimating = false
-    
-    
-    override public func didMoveToSuperview() {
+    /// Called when adding the view.
+    override open func didMoveToSuperview() {
         contentEdgeInsets = UIEdgeInsets(top: 0, left: frame.height * 0.4 + padding * 4, bottom: 0, right: 0)
         layer.backgroundColor = color.cgColor
         if !isAnimating {
@@ -141,18 +145,12 @@ public class AZSocialButton: UIButton{
         layer.shadowRadius = shadowRadius
     }
     
+    /// Selector function
     func click(){
         onClickAction?(self)
     }
     
-    func longClickPerformed(){
-        if isLongClickEnabled{
-            self.touchesCancelled(Set<UITouch>(), with: nil)
-            onLongClickAction?(self)
-        }
-    }
-    
-    public override var isHighlighted: Bool{
+    open override var isHighlighted: Bool{
         set{
             if highlightOnTouch {
                 self.alpha = newValue ? 0.5 : 1
@@ -170,10 +168,6 @@ public class AZSocialButton: UIButton{
 extension AZSocialButton{
     
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        longClickTimer = Timer.scheduledTimer(timeInterval: self.longClickTriggerDuration,
-                                              target: self,
-                                              selector: #selector(longClickPerformed),
-                                              userInfo: nil, repeats: false)
         if self.animateInteraction{
             isAnimating = true
             UIView.animate(withDuration: self.beginAnimationDuration, animations: {
@@ -212,7 +206,6 @@ extension AZSocialButton{
     }
     
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        longClickTimer?.invalidate()
         if self.animateInteraction{
             isAnimating = true
             UIView.animate(withDuration: self.endAnimationDuration,
@@ -231,7 +224,6 @@ extension AZSocialButton{
     }
     
     override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        longClickTimer?.invalidate()
         if self.animateInteraction{
             isAnimating = true
             UIView.animate(withDuration: self.endAnimationDuration,
