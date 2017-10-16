@@ -146,7 +146,7 @@ open class AZSocialButton: UIButton{
     }
     
     /// Selector function
-    func click(){
+    @objc func click(){
         onClickAction?(self)
     }
     
