@@ -107,7 +107,7 @@
 				TargetAttributes = {
 					9D1BF7761EA238A8004F8F8C = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = Y759RK5K7D;
+						DevelopmentTeam = 35DWKWL79J;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -273,13 +273,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Y759RK5K7D;
+				DEVELOPMENT_TEAM = 35DWKWL79J;
 				INFOPLIST_FILE = EasySocialButton/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.crofis.EasySocialButton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -287,13 +287,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Y759RK5K7D;
+				DEVELOPMENT_TEAM = 35DWKWL79J;
 				INFOPLIST_FILE = EasySocialButton/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.crofis.EasySocialButton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
